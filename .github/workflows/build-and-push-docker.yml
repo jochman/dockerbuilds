@@ -1,0 +1,44 @@
+name: Demisto-SDK push
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      dockerfiles/demisto-sdk/.version
+
+jobs:
+  create-demisto-sdk-docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: LoadVersion
+        run: cat dockerfiles/demisto-sdk/.version >> $GITHUB_ENV
+        shell: bash
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: dockerfiles/demisto-sdk/Dockerfile
+          context: dockerfiles/demisto-sdk
+          platforms: [
+            linux/amd64,
+            linux/arm64
+          ]
+          images: jochman/demisto-sdk
+          tags: {{ sdkversion }}
