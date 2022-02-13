@@ -38,4 +38,4 @@ jobs:
           context: dockerfiles/demisto-sdk
           platforms: linux/amd64,linux/arm64
           images: jochman/demisto-sdk
-          tags: {{ sdkversion }}
+          tags: {{ steps.LoadVersion.sdkversion }}
