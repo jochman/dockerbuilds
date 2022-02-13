@@ -38,4 +38,4 @@ jobs:
           file: dockerfiles/demisto-sdk/Dockerfile
           context: dockerfiles/demisto-sdk
           platforms: linux/amd64,linux/arm64
-          tags: jochman/demisto-sdk:${{ github.sdkversion }}
+          tags: jochman/demisto-sdk:${{ env.sdkversion }}
