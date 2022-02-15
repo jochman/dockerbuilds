@@ -16,7 +16,7 @@ jobs:
       -
         name: LoadVersion
         id: loadversion
-        run: echo "VERSION=$( cat .version )" >> $GITHUB_ENV
+        run: echo "VERSION=$( cat dockerfiles/demisto-sdk/.version )" >> $GITHUB_ENV
         shell: bash
       -
         name: Set up QEMU
