@@ -2,6 +2,8 @@ FROM python:slim
 
 RUN apt-get update && apt install git gcc nodejs npm -y && rm -rf /var/lib/apt/lists/*
 
+ARG VERSION=1.6.0
+
 RUN pip install --no-cache-dir demisto-sdk
 
 WORKDIR /content

@@ -1,10 +1,10 @@
-name: Demisto-SDK push
+name: Demisto-SDK build
 on:
   push:
     branches:
       - 'main'
     paths:
-      dockerfiles/demisto-sdk/.version
+      - dockerfiles/demisto-sdk/.version
 
 jobs:
   create-demisto-sdk-docker:
@@ -16,7 +16,7 @@ jobs:
       -
         name: LoadVersion
         id: loadversion
-        run: cat dockerfiles/demisto-sdk/.version >> $GITHUB_ENV
+        run: echo "VERSION=$( cat .version )" >> $GITHUB_ENV
         shell: bash
       -
         name: Set up QEMU
@@ -38,4 +38,6 @@ jobs:
           file: dockerfiles/demisto-sdk/Dockerfile
           context: dockerfiles/demisto-sdk
           platforms: linux/amd64,linux/arm64
-          tags: jochman/demisto-sdk:${{ env.sdkversion }},jochman/demisto-sdk:latest
+          build-args: |
+            VERSION=${{ env.VERSION }}
+          tags: jochman/demisto-sdk:${{ env.VERSION }},jochman/demisto-sdk:latest
